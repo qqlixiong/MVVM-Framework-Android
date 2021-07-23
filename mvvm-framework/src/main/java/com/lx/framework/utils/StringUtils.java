@@ -60,13 +60,13 @@ public final class StringUtils {
 
     public static double parseDouble(String s){
         if (isSpace(s)){
-            return 0f;
+            return 0.0d;
         }else {
             try {
                 return Double.parseDouble(s);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                return 0f;
+                return 0.0d;
             }
         }
     }
