@@ -638,8 +638,8 @@ public class TimeUtils {
     public static boolean compare(String time){
         if (time.contains(":")) {
             String currentTime = TimeUtils.f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm"));
-            int t1 = 0;
-            int t2 = 0;
+            int t1;
+            int t2;
             String s1 = time.split(":")[0];
             String s2 = time.split(":")[1];
             if (s1.startsWith("0")){
@@ -653,8 +653,8 @@ public class TimeUtils {
                 t2 = StringUtils.parseInt(s2);
             }
 
-            int t3 = 0;
-            int t4 = 0;
+            int t3;
+            int t4;
             String s3 = currentTime.split(":")[0];
             String s4 = currentTime.split(":")[1];
             if (s3.startsWith("0")){
