@@ -628,4 +628,52 @@ public class TimeUtils {
         return s;
 
     }
+
+    /**
+     * 比较时分在当前时间前后
+     * @param time      MM:dd
+     * @return     true  当前时间大于设定时间
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static boolean compare(String time){
+        if (time.contains(":")) {
+            String currentTime = TimeUtils.f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm"));
+            int t1 = 0;
+            int t2 = 0;
+            String s1 = time.split(":")[0];
+            String s2 = time.split(":")[1];
+            if (s1.startsWith("0")){
+                t1 = StringUtils.parseInt(s1.substring(1));
+            }else {
+                t1 = StringUtils.parseInt(s1);
+            }
+            if (s2.startsWith("0")){
+                t2 = StringUtils.parseInt(s2.substring(1));
+            }else {
+                t2 = StringUtils.parseInt(s2);
+            }
+
+            int t3 = 0;
+            int t4 = 0;
+            String s3 = currentTime.split(":")[0];
+            String s4 = currentTime.split(":")[1];
+            if (s3.startsWith("0")){
+                t3 = StringUtils.parseInt(s3.substring(1));
+            }else {
+                t3 = StringUtils.parseInt(s3);
+            }
+            if (s4.startsWith("0")){
+                t4 = StringUtils.parseInt(s4.substring(1));
+            }else {
+                t4 = StringUtils.parseInt(s4);
+            }
+            if (t3 == t1){
+                return t4 > t2;
+            }else {
+                return t3 > t1;
+            }
+        } else {
+            return false;
+        }
+    }
 }
