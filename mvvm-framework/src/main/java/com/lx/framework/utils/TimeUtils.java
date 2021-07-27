@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -675,5 +676,28 @@ public class TimeUtils {
         } else {
             return false;
         }
+    }
+
+    //是否为本月
+    public boolean equalsMonth(String m1,String m2){
+        int cMonth;
+        if (m1.startsWith("0")){
+            cMonth = StringUtils.parseInt(m1.substring(1));
+        }else {
+            cMonth = StringUtils.parseInt(m1);
+        }
+        int month;
+        if (m2.startsWith("0")){
+            month = StringUtils.parseInt(m2.substring(1));
+        }else {
+            month = StringUtils.parseInt(m2);
+        }
+        return cMonth == month;
+    }
+
+    //秒转为小时，并保留一位小数
+    public double getHour(int mis){
+        DecimalFormat df = new DecimalFormat("#.#");
+        return Double.parseDouble(df.format(mis/3600.0d));
     }
 }
