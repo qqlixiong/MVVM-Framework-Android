@@ -646,7 +646,7 @@ public class TimeUtils {
     }
 
     //是否为本月
-    public boolean equalsMonth(String m1,String m2){
+    public static boolean equalsMonth(String m1,String m2){
         int cMonth;
         if (m1.startsWith("0")){
             cMonth = StringUtils.parseInt(m1.substring(1));
@@ -663,7 +663,7 @@ public class TimeUtils {
     }
 
     //秒转为小时，并保留一位小数
-    public double getHour(int mis){
+    public static double getHour(int mis){
         DecimalFormat df = new DecimalFormat("#.#");
         return Double.parseDouble(df.format(mis/3600.0d));
     }
