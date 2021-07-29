@@ -36,7 +36,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
-class RetrofitClient {
+public class RetrofitClient {
     private static final int DEFAULT_TIMEOUT = 20;
 //    private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
 
