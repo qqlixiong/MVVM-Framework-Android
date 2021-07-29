@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("deprecation")
+@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
 
     // ///s 代表Simple日期格式：yyyy-MM-dd
