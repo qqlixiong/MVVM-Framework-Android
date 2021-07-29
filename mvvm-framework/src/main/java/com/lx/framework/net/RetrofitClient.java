@@ -36,7 +36,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
-public class RetrofitClient {
+class RetrofitClient {
     private static final int DEFAULT_TIMEOUT = 20;
 //    private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
 
@@ -78,29 +78,22 @@ public class RetrofitClient {
                 .addInterceptor(new MyInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(Utils.getContext()))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                .addInterceptor(new Interceptor() {
-                    @NotNull
-                    @Override
-                    public Response intercept(@NotNull Chain chain) throws IOException {
-                        Request request = chain.request();
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
 
-                        long startTime = System.currentTimeMillis();
-                        Response response = chain.proceed(chain.request());
-                        long endTime = System.currentTimeMillis();
-                        long duration = endTime - startTime;
-                        MediaType mediaType = response.body().contentType();
-                        String content = response.body().string();
+                    long startTime = System.currentTimeMillis();
+                    Response response = chain.proceed(chain.request());
+                    long endTime = System.currentTimeMillis();
+                    long duration = endTime - startTime;
+                    MediaType mediaType = response.body().contentType();
+                    String content = response.body().string();
 
-                        KLog.e("Interceptor", "请求地址：| " + request.toString());
-                        if (!(request.body() instanceof MultipartBody)) {
-                            if (request.body() != null) {
-                                printParams(request.body());
-                            }
+                    if (!(request.body() instanceof MultipartBody)) {
+                        if (request.body() != null) {
+                            printParams(request.body());
                         }
-                        KLog.e("Interceptor", "请求体返回：| Response:" + content);
-                        KLog.e("Interceptor", "----------请求耗时:" + duration + "毫秒----------");
-                        return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
                     }
+                    return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
                 }).addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
