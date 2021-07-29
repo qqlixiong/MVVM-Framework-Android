@@ -646,7 +646,7 @@ public class TimeUtils {
      */
     @SuppressLint("SimpleDateFormat")
     public static boolean compare(String time){
-        return compare(time,TimeUtils.f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm")));
+        return compare(time,f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm")));
     }
 
     //是否为本月
