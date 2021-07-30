@@ -1,4 +1,3 @@
-/*
 package com.lx.mvvm
 
 import com.lx.framework.base.BaseApplication
@@ -13,4 +12,4 @@ class MyApp : BaseApplication() {
     companion object {
         var FILE_DIR: String? = null
     }
-}*/
+}
