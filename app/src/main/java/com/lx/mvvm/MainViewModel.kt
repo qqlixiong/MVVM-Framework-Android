@@ -1,3 +1,4 @@
+/*
 package com.lx.mvvm
 
 import android.app.Application
@@ -10,4 +11,4 @@ import com.lx.framework.binding.command.BindingCommand
 class MainViewModel(application: Application) : BaseViewModel<BaseModel?>(application) {
     var title = ObservableField<String>("我的第一个页面")
     var backCommand = BindingCommand<Void>(BindingAction { finish() })
-}
+}*/

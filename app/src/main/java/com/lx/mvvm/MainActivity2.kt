@@ -1,3 +1,4 @@
+/*
 package com.lx.mvvm
 
 import android.os.Bundle
@@ -8,4 +9,4 @@ class MainActivity2 : BaseActivity<ActivityMainBinding?, MainViewModel?>() {
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_main
     }
-}
+}*/
