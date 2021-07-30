@@ -88,11 +88,14 @@ public class RetrofitClient {
                     MediaType mediaType = response.body().contentType();
                     String content = response.body().string();
 
+                    KLog.e("Interceptor", "请求地址：| " + request.toString());
                     if (!(request.body() instanceof MultipartBody)) {
                         if (request.body() != null) {
                             printParams(request.body());
                         }
                     }
+                    KLog.e("Interceptor", "请求体返回：| Response:" + content);
+                    KLog.e("Interceptor", "----------请求耗时:" + duration + "毫秒----------");
                     return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
                 }).addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
