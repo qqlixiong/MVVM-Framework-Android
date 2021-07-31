@@ -38,7 +38,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RetrofitClient {
     private static final int DEFAULT_TIMEOUT = 20;
-//    private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
 
     private static Retrofit retrofit;
 
@@ -63,18 +62,9 @@ public class RetrofitClient {
         }
 
 
-      /*  try {
-            Cache cache = null;
-            if (cache == null) {
-                cache = new Cache(httpCacheDirectory, CACHE_TIMEOUT);
-            }
-        } catch (Exception e) {
-        }*/
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
-        //                .cache(cache)
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(Utils.getContext())))
-//                .cache(cache)
                 .addInterceptor(new MyInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(Utils.getContext()))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
@@ -84,21 +74,15 @@ public class RetrofitClient {
                     public Response intercept(@NotNull Chain chain) throws IOException {
                         Request request = chain.request();
 
-                        long startTime = System.currentTimeMillis();
                         Response response = chain.proceed(chain.request());
-                        long endTime = System.currentTimeMillis();
-                        long duration = endTime - startTime;
                         MediaType mediaType = response.body().contentType();
                         String content = response.body().string();
 
-                        KLog.e("Interceptor", "请求地址：| " + request.toString());
                         if (!(request.body() instanceof MultipartBody)) {
                             if (request.body() != null) {
                                 printParams(request.body());
                             }
                         }
-                        KLog.e("Interceptor", "请求体返回：| Response:" + content);
-                        KLog.e("Interceptor", "----------请求耗时:" + duration + "毫秒----------");
                         return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
                     }
                 }).addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
@@ -110,8 +94,7 @@ public class RetrofitClient {
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-//                .addConverterFactory(GsonConverterFactory.create())      //默认的解析
-                .addConverterFactory(GsonDConverterFactory.create())      //自定义解析
+                .addConverterFactory(GsonDConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .baseUrl(Configure.getUrl())
                 .build();
