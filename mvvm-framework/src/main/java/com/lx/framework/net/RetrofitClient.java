@@ -78,6 +78,30 @@ public class RetrofitClient {
                 .addInterceptor(new MyInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(Utils.getContext()))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+                .addInterceptor(new Interceptor() {
+                    @NotNull
+                    @Override
+                    public Response intercept(@NotNull Chain chain) throws IOException {
+                        Request request = chain.request();
+
+                        long startTime = System.currentTimeMillis();
+                        Response response = chain.proceed(chain.request());
+                        long endTime = System.currentTimeMillis();
+                        long duration = endTime - startTime;
+                        MediaType mediaType = response.body().contentType();
+                        String content = response.body().string();
+
+                        KLog.e("Interceptor", "请求地址：| " + request.toString());
+                        if (!(request.body() instanceof MultipartBody)) {
+                            if (request.body() != null) {
+                                printParams(request.body());
+                            }
+                        }
+                        KLog.e("Interceptor", "请求体返回：| Response:" + content);
+                        KLog.e("Interceptor", "----------请求耗时:" + duration + "毫秒----------");
+                        return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
+                    }
+                }).addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
@@ -110,6 +134,21 @@ public class RetrofitClient {
                 .subscribe(subscriber);
 
         return null;
+    }
+
+    private void printParams(RequestBody body) {
+        Buffer buffer = new Buffer();
+        try {
+            body.writeTo(buffer);
+            Charset charset = UTF_8;
+            MediaType contentType = body.contentType();
+            if (contentType != null) {
+                charset = contentType.charset(UTF_8);
+            }
+            String params = buffer.readString(charset);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
