@@ -38,6 +38,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RetrofitClient {
     private static final int DEFAULT_TIMEOUT = 20;
+//    private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
 
     private static Retrofit retrofit;
 
@@ -62,30 +63,21 @@ public class RetrofitClient {
         }
 
 
+      /*  try {
+            Cache cache = null;
+            if (cache == null) {
+                cache = new Cache(httpCacheDirectory, CACHE_TIMEOUT);
+            }
+        } catch (Exception e) {
+        }*/
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
+        //                .cache(cache)
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(Utils.getContext())))
+//                .cache(cache)
                 .addInterceptor(new MyInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(Utils.getContext()))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                .addInterceptor(new Interceptor() {
-                    @NotNull
-                    @Override
-                    public Response intercept(@NotNull Chain chain) throws IOException {
-                        Request request = chain.request();
-
-                        Response response = chain.proceed(chain.request());
-                        MediaType mediaType = response.body().contentType();
-                        String content = response.body().string();
-
-                        if (!(request.body() instanceof MultipartBody)) {
-                            if (request.body() != null) {
-                                printParams(request.body());
-                            }
-                        }
-                        return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
-                    }
-                }).addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
@@ -94,7 +86,8 @@ public class RetrofitClient {
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .addConverterFactory(GsonDConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())      //默认的解析
+                .addConverterFactory(GsonDConverterFactory.create())      //自定义解析
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .baseUrl(Configure.getUrl())
                 .build();
@@ -117,21 +110,6 @@ public class RetrofitClient {
                 .subscribe(subscriber);
 
         return null;
-    }
-
-    private void printParams(RequestBody body) {
-        Buffer buffer = new Buffer();
-        try {
-            body.writeTo(buffer);
-            Charset charset = UTF_8;
-            MediaType contentType = body.contentType();
-            if (contentType != null) {
-                charset = contentType.charset(UTF_8);
-            }
-            String params = buffer.readString(charset);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }
