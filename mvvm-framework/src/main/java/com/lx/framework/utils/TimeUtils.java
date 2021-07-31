@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SuppressWarnings("deprecation")
-@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
 
     // ///s 代表Simple日期格式：yyyy-MM-dd
@@ -598,9 +597,15 @@ public class TimeUtils {
         }
     }
 
+    /**
+     * 比较时分在当前时间前后
+     * @param time      MM:dd
+     * @return     true  当前时间大于设定时间
+     */
     @SuppressLint("SimpleDateFormat")
-    public static boolean compare(String time,String time2){
+    public static boolean compare(String time){
         if (time.contains(":")) {
+            String currentTime = TimeUtils.f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm"));
             int t1;
             int t2;
             String s1 = time.split(":")[0];
@@ -618,8 +623,8 @@ public class TimeUtils {
 
             int t3;
             int t4;
-            String s3 = time2.split(":")[0];
-            String s4 = time2.split(":")[1];
+            String s3 = currentTime.split(":")[0];
+            String s4 = currentTime.split(":")[1];
             if (s3.startsWith("0")){
                 t3 = StringUtils.parseInt(s3.substring(1));
             }else {
@@ -638,16 +643,6 @@ public class TimeUtils {
         } else {
             return false;
         }
-    }
-
-    /**
-     * 比较时分在当前时间前后
-     * @param time      MM:dd
-     * @return     true  当前时间大于设定时间
-     */
-    @SuppressLint("SimpleDateFormat")
-    public static boolean compare(String time){
-        return compare(time,TimeUtils.f_long_2_str(System.currentTimeMillis(),new SimpleDateFormat("HH:mm")));
     }
 
     //是否为本月
