@@ -87,13 +87,8 @@ public class BaseApplication extends MultiDexApplication {
         return sInstance;
     }
 
-    //获取当前显示的activity
-    public static Activity getAliveActivity() {
-        return aliveActivity;
-    }
-
     public static boolean isAlive(){
-        return getAliveActivity()!=null && getAliveActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE;
+        return aliveActivity!=null && aliveActivity.getWindow().getDecorView().getVisibility() == View.VISIBLE;
     }
 
 }
