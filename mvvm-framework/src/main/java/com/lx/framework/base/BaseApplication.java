@@ -3,6 +3,7 @@ package com.lx.framework.base;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
 
 import com.lx.framework.utils.Utils;
 import com.lx.framework.utils.album.GlideAlbumLoader;
@@ -20,6 +21,7 @@ import update.UpdateAppUtils;
 
 public class BaseApplication extends MultiDexApplication {
     private static Application sInstance;
+    private static Activity aliveActivity;
 
     @Override
     public void onCreate() {
@@ -35,7 +37,7 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @param application
      */
-    public static synchronized void setApplication(@NonNull Application application) {
+    public synchronized void setApplication(@NonNull Application application) {
         sInstance = application;
         //初始化工具类
         Utils.init(application);
@@ -53,6 +55,7 @@ public class BaseApplication extends MultiDexApplication {
 
             @Override
             public void onActivityResumed(Activity activity) {
+                aliveActivity = activity;
             }
 
             @Override
@@ -83,4 +86,14 @@ public class BaseApplication extends MultiDexApplication {
         }
         return sInstance;
     }
+
+    //获取当前显示的activity
+    public static Activity getAliveActivity() {
+        return aliveActivity;
+    }
+
+    public static boolean isAlive(){
+        return getAliveActivity()!=null && getAliveActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE;
+    }
+
 }

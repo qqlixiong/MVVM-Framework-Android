@@ -3,6 +3,7 @@ package com.lx.framework.base;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
@@ -35,6 +36,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
+
+import static com.lx.framework.base.BaseApplication.getAliveActivity;
 
 
 /**
