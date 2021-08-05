@@ -21,7 +21,6 @@ import update.UpdateAppUtils;
 
 public class BaseApplication extends MultiDexApplication {
     private static Application sInstance;
-    private static Activity aliveActivity;
 
     @Override
     public void onCreate() {
@@ -55,7 +54,6 @@ public class BaseApplication extends MultiDexApplication {
 
             @Override
             public void onActivityResumed(Activity activity) {
-                aliveActivity = activity;
             }
 
             @Override
@@ -86,9 +84,4 @@ public class BaseApplication extends MultiDexApplication {
         }
         return sInstance;
     }
-
-    public static boolean isAlive(){
-        return aliveActivity!=null && aliveActivity.getWindow().getDecorView().getVisibility() == View.VISIBLE;
-    }
-
 }
