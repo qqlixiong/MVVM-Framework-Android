@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding4.view.RxView;
 import com.lx.framework.binding.command.BindingCommand;
+import com.lx.framework.utils.DpiUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -128,7 +129,7 @@ public class ViewAdapter {
     @BindingAdapter("android:layout_marginTop")
     public static void setTopMargin(View view, int topMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        layoutParams.setMargins(layoutParams.leftMargin, topMargin,
+        layoutParams.setMargins(layoutParams.leftMargin, DpiUtils.dip2px(view.getContext(),topMargin),
                 layoutParams.rightMargin,layoutParams.bottomMargin);
         view.setLayoutParams(layoutParams);
     }
@@ -137,14 +138,14 @@ public class ViewAdapter {
     public static void setBottomMargin(View view, int bottomMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin,
-                layoutParams.rightMargin,bottomMargin);
+                layoutParams.rightMargin,DpiUtils.dip2px(view.getContext(),bottomMargin));
         view.setLayoutParams(layoutParams);
     }
 
     @BindingAdapter("android:layout_marginLeft")
     public static void setLeftMargin(View view, int leftMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        layoutParams.setMargins(leftMargin, layoutParams.topMargin,
+        layoutParams.setMargins(DpiUtils.dip2px(view.getContext(),leftMargin), layoutParams.topMargin,
                 layoutParams.rightMargin,layoutParams.bottomMargin);
         view.setLayoutParams(layoutParams);
     }
@@ -153,20 +154,21 @@ public class ViewAdapter {
     public static void setRightMargin(View view, int rightMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin,
-                rightMargin,layoutParams.bottomMargin);
+                DpiUtils.dip2px(view.getContext(),rightMargin),layoutParams.bottomMargin);
         view.setLayoutParams(layoutParams);
     }
 
     @BindingAdapter("android:layout_margin")
     public static void setMargin(View view, int margin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        layoutParams.setMargins(margin, margin,margin,margin);
+        layoutParams.setMargins(DpiUtils.dip2px(view.getContext(),margin), DpiUtils.dip2px(view.getContext(),margin),
+                DpiUtils.dip2px(view.getContext(),margin),DpiUtils.dip2px(view.getContext(),margin));
         view.setLayoutParams(layoutParams);
     }
 
     @BindingAdapter("android:paddingLeft")
     public static void setPaddingLeft(View view, int paddingLeft) {
-        view.setPadding(paddingLeft,
+        view.setPadding(DpiUtils.dip2px(view.getContext(),paddingLeft),
                 view.getPaddingTop(),
                 view.getPaddingRight(),
                 view.getPaddingBottom());
@@ -176,14 +178,14 @@ public class ViewAdapter {
     public static void setPaddingRight(View view, int paddingRight) {
         view.setPadding(view.getPaddingLeft(),
                 view.getPaddingTop(),
-                paddingRight,
+                DpiUtils.dip2px(view.getContext(),paddingRight),
                 view.getPaddingBottom());
     }
 
     @BindingAdapter("android:paddingTop")
     public static void setPaddingTop(View view, int paddingTop) {
         view.setPadding(view.getPaddingLeft(),
-                paddingTop,
+                DpiUtils.dip2px(view.getContext(),paddingTop),
                 view.getPaddingRight(),
                 view.getPaddingBottom());
     }
@@ -193,15 +195,15 @@ public class ViewAdapter {
         view.setPadding(view.getPaddingLeft(),
                 view.getPaddingTop(),
                 view.getPaddingRight(),
-                paddingBottom);
+                DpiUtils.dip2px(view.getContext(),paddingBottom));
     }
 
     @BindingAdapter("android:padding")
     public static void setPadding(View view, int padding) {
-        view.setPadding(padding,
-                padding,
-                padding,
-                padding);
+        view.setPadding(DpiUtils.dip2px(view.getContext(),padding),
+                DpiUtils.dip2px(view.getContext(),padding),
+                DpiUtils.dip2px(view.getContext(),padding),
+                DpiUtils.dip2px(view.getContext(),padding));
     }
 
     @BindingAdapter("android:textSize")

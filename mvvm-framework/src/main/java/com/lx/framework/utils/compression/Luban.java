@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.util.Log;
 import com.lx.framework.utils.FileUtils;
 import com.lx.framework.utils.Utils;
 import com.yanzhenjie.album.util.AlbumUtils;
+import com.yanzhenjie.album.util.Uri2PathUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -110,6 +112,9 @@ public class Luban {
                     .map(new Function<String, File>() {
                         @Override
                         public File apply(String s) throws Exception {
+                            if (Build.VERSION.SDK_INT >= 29) {
+                                s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                            }
                             File file = new File(s);
                             return firstCompress(file);
                         }
@@ -145,6 +150,9 @@ public class Luban {
                     .map(new Function<String, File>() {
                         @Override
                         public File apply(String s) throws Exception {
+                            if (Build.VERSION.SDK_INT >= 29) {
+                                s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                            }
                             File file = new File(s);
                             return thirdCompress(file);
                         }
@@ -215,8 +223,11 @@ public class Luban {
                     if (TextUtils.isEmpty(s) || s.contains("http")) {
                         return null;
                     } else {
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                        }
                         File file = new File(s);
-                        if (FileUtils.isFileExists(file)) {
+                        if (file.exists()) {
                             return firstCompress(file);
                         } else {
                             return null;
@@ -231,8 +242,11 @@ public class Luban {
                     if (TextUtils.isEmpty(s) || s.contains("http")) {
                         return null;
                     } else {
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                        }
                         File file = new File(s);
-                        if (FileUtils.isFileExists(file)) {
+                        if (file.exists()) {
                             return thirdCompress(file);
                         } else {
                             return null;
@@ -251,8 +265,11 @@ public class Luban {
                     if (TextUtils.isEmpty(s)) {
                         return null;
                     } else {
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                        }
                         File file = new File(s);
-                        if (FileUtils.isFileExists(file)) {
+                        if (file.exists()) {
                             return firstCompress(file);
                         } else {
                             return null;
@@ -267,8 +284,11 @@ public class Luban {
                     if (TextUtils.isEmpty(s)) {
                         return null;
                     } else {
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            s = Uri2PathUtil.getRealPathFromUri(Utils.getContext(), Uri.parse(s));
+                        }
                         File file = new File(s);
-                        if (FileUtils.isFileExists(file)) {
+                        if (file.exists()) {
                             return thirdCompress(file);
                         } else {
                             return null;
