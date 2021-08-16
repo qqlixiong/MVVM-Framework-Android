@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import androidx.annotation.ColorInt;
@@ -323,5 +324,14 @@ public final class StringUtils {
             }
         }
         return new String(chars);
+    }
+
+    public static String toBigDecimal(String s){
+        String invest = "";
+        if (!TextUtils.isEmpty(s)) {
+            BigDecimal db1 = new BigDecimal(s);
+            invest = db1.toPlainString();
+        }
+        return invest;
     }
 }
