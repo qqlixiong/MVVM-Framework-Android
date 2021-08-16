@@ -28,7 +28,7 @@ public final class RegexUtils {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isMobileSimple(final CharSequence input) {
-        return isMatch(RegexConstants.REGEX_MOBILE_SIMPLE, input);
+        return isMatch(RegexConstants.REGEX_MOBILE_SIMPLE, input) && input.toString().startsWith("1");
     }
 
     /**
