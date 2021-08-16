@@ -274,7 +274,6 @@ public abstract class BaseFragmentActivity<V extends ViewDataBinding, VM extends
                     .setCancelable(false)
                     .setCancelOutside(false);
             mmLoading = builder.create();
-            mmLoading.getWindow().setDimAmount(0f);
         }else {
             mmLoading.dismiss();
             MMLoading.Builder builder = new MMLoading.Builder(this)
@@ -283,8 +282,8 @@ public abstract class BaseFragmentActivity<V extends ViewDataBinding, VM extends
                     .setCancelable(false)
                     .setCancelOutside(false);
             mmLoading = builder.create();
-            mmLoading.getWindow().setDimAmount(0f);
         }
+        mmLoading.getWindow().setDimAmount(0f);
         mmLoading.show();
     }
 
