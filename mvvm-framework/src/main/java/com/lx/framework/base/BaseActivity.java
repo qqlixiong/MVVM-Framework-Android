@@ -301,6 +301,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                     .setCancelable(false)
                     .setCancelOutside(false);
             mmLoading = builder.create();
+            mmLoading.getWindow().setDimAmount(0f);
         }else {
             mmLoading.dismiss();
             MMLoading.Builder builder = new MMLoading.Builder(this)
@@ -309,6 +310,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                     .setCancelable(false)
                     .setCancelOutside(false);
             mmLoading = builder.create();
+            mmLoading.getWindow().setDimAmount(0f);
         }
         mmLoading.show();
     }
