@@ -48,7 +48,14 @@ public final class StringUtils {
         if (isSpace(s)){
             return "0";
         }else {
-            return s;
+            String bd;
+            try {
+                bd = toBigDecimal(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+                bd = s;
+            }
+            return bd;
         }
     }
 
@@ -327,11 +334,11 @@ public final class StringUtils {
     }
 
     public static String toBigDecimal(String s){
-        String invest = "";
         if (!TextUtils.isEmpty(s)) {
             BigDecimal db1 = new BigDecimal(s);
-            invest = db1.toPlainString();
+            return db1.toPlainString();
+        }else {
+            return "0";
         }
-        return invest;
     }
 }
