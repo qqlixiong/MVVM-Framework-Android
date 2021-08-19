@@ -24,6 +24,7 @@ public abstract class ARequest<T, K> {
     @SuppressLint("CheckResult")
     public void request(Activity activity, BaseViewModel viewModel, Class<T> service, IMethod<T, K> method, IResponse<K> iResponse) {
         if (NetUtil.getNetWorkStart(activity) == 1){
+            iResponse.onError("网络异常");
             exceptionHandling(activity,"网络异常",-1);
         }else {
             method.method(RetrofitClient.getInstance().create(service))
