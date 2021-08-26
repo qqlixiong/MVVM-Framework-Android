@@ -27,17 +27,21 @@ public abstract class ARequest<T, K> {
             iResponse.onError("网络异常");
             exceptionHandling(activity,"网络异常",-1);
         }else {
-            method.method(RetrofitClient.getInstance().create(service))
-                    .compose(RxUtils.bindToLifecycle(viewModel.getLifecycleProvider())) // 请求与View周期同步
-                    .compose(RxUtils.schedulersTransformer())
-                    .compose(RxUtils.exceptionTransformer())
-                    .subscribe((Consumer<K>) iResponse::onSuccess, (Consumer<ResponseThrowable>) throwable -> {
-                        iResponse.onError(throwable.message);
-                        if (throwable.getCause() instanceof ResultException){
-                            ResultException resultException = (ResultException) throwable.getCause();
-                            exceptionHandling(activity,resultException.getErrMsg(),resultException.getErrCode());
-                        }
-                    });
+            try {
+                method.method(RetrofitClient.getInstance().create(service))
+                        .compose(RxUtils.bindToLifecycle(viewModel.getLifecycleProvider())) // 请求与View周期同步
+                        .compose(RxUtils.schedulersTransformer())
+                        .compose(RxUtils.exceptionTransformer())
+                        .subscribe((Consumer<K>) iResponse::onSuccess, (Consumer<ResponseThrowable>) throwable -> {
+                            iResponse.onError(throwable.message);
+                            if (throwable.getCause() instanceof ResultException){
+                                ResultException resultException = (ResultException) throwable.getCause();
+                                exceptionHandling(activity,resultException.getErrMsg(),resultException.getErrCode());
+                            }
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
